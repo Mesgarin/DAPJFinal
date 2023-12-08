@@ -13,6 +13,15 @@ format:
     toc: true
 ---
 
+
+***Executive Summary***
+
+This report is provided for the data analytics project with the goal of performing a reasonable analysis of the data given. The general task of your project is to understand what impacts success in the two subjects Mathematics and Portuguese, from student achievement in secondary education of two Portuguese schools. The data is in 948 rows and 40 columns. The target variable is ‘G1. Math’. The algorithm that is used for machine learning model is the regression and for task 2 after categorizing the grade of math we use the classification model.
+After loading the data and understanding each variable, I cleaned the data and removed the garbage variables. Then I transformed ‘famsup’ related variables into yes/ no, type ‘object’ and created new variables as an int and replace yes with 1 and no with zero, and check the categorical variable , we transform to dummy variable and change the type of them to integer for using correlation between variables and G1.math , and before that we check the standard deviation and garbage value and null value for cleaning dada ( preprocessing ) after that we virtualizing the data for better deciding and finding the data . In the next step, I checked the linear correlation of the variables. I performed simple data exploration using visualization for all the features. I define a new data frame “G1Math_df2” with absences. Port, famsup, Walc, failures.Port, studytime, famrel,higher_yes,failure.math and  G1.Math’
+After visualizing the distributions and outliers, I chose my feature variables and split my data set into test data and train data. Then I selected” Random Forest Regressor “among 6 algorithms by performing R-square: 66% and MSE: 3.77. after training the model , I made a prediction on the test data  and check the new data by this models and check the prediction by features I got to this model .
+After categorizing the model, I can use the classification model: “Random Forest Classifier” with accuracy 82% and it shown that this type of data by using categorizing we can better accuracy. 
+
+
 # Task 1 
 
 ## 1- Introduction
@@ -882,8 +891,8 @@ y_pred = model.predict(xtest)
 mse = mean_squared_error(ytest, y_pred)
 r2 = r2_score(ytest, y_pred)
 
-print(f'Mean Squared Error: {mse}')
-print(f'R-squared: {r2}')
+print(f'Mean Squared Error LinearRegression: {mse}')
+print(f'R-squared LinearRegression: {r2}')
 
 
 ```
@@ -909,7 +918,7 @@ new_data_scaled = scaler.transform(new_data)
 new_predictions = model.predict(new_data_scaled)
 
 # Print or use the new predictions
-print("Predictions on new data:")
+print("Predictions on new data LinearRegression:")
 print(new_predictions)
 ```
 
@@ -992,8 +1001,8 @@ y_pred = model.predict(xtest)
 mse = mean_squared_error(ytest, y_pred)
 r2 = r2_score(ytest, y_pred)
 
-print(f'Mean Squared Error Lasso: {mse}')
-print(f'R-squared Lasso: {r2}')
+print(f'Mean Squared Error Ridge: {mse}')
+print(f'R-squaredRidge: {r2}')
 
 ```
 
@@ -1043,8 +1052,8 @@ y_pred = model.predict(xtest)
 mse = mean_squared_error(ytest, y_pred)
 r2 = r2_score(ytest, y_pred)
 
-print(f'Mean Squared Error Lasso: {mse}')
-print(f'R-squared Lasso: {r2}')
+print(f'Mean Squared Error SVR: {mse}')
+print(f'R-squared SVR: {r2}')
 
 ```
 
@@ -1092,8 +1101,8 @@ y_pred = model.predict(xtest)
 mse = mean_squared_error(ytest, y_pred)
 r2 = r2_score(ytest, y_pred)
 
-print(f'Mean Squared Error Lasso: {mse}')
-print(f'R-squared Lasso: {r2}')
+print(f'Mean Squared Error RandomForestRegressor: {mse}')
+print(f'R-squared RandomForestRegressor: {r2}')
 
 ```
 
@@ -1255,6 +1264,37 @@ print(f'Accuracy: {accuracy}')
 print('Classification Report:')
 print(classification_rep)
 ```
+
+In this matrix:
+
+Rows represent the actual (true) classes.
+
+Columns represent the predicted classes.
+
+Certainly! Let's break down the confusion matrix into the common terms used in binary and multiclass classification:
+
+True Positive (TP):
+
+TP for Class 0 (first row, first column): 46 instances were correctly predicted as Class 0.
+TP for Class 1 (second row, second column): 38 instances were correctly predicted as Class 1.
+TP for Class 2 (third row, third column): 71 instances were correctly predicted as Class 2.
+False Positive (FP):
+
+FP for Class 0 (first row, second and third columns): 4 instances of Class 0 were incorrectly predicted as Class 1, and 7 instances were incorrectly predicted as Class 2.
+FP for Class 1 (second row, first and third columns): 6 instances of Class 1 were incorrectly predicted as Class 0, and 8 instances were incorrectly predicted as Class 2.
+FP for Class 2 (third row, first and second columns): 4 instances of Class 2 were incorrectly predicted as Class 0, and 6 instances were incorrectly predicted as Class 1.
+
+True Negative (TN):
+
+The remaining entries outside the diagonal are not explicitly mentioned in a confusion matrix, but they represent instances that were correctly predicted as classes other than the one specified by the row.
+
+False Negative (FN):
+
+FN for Class 0 (first row, remaining columns): 7 instances of Class 0 were incorrectly predicted as either Class 1 or Class 2.
+FN for Class 1 (second row, remaining columns): 6 instances of Class 1 were incorrectly predicted as either Class 0 or Class 2.
+FN for Class 2 (third row, remaining columns): 6 instances of Class 2 were incorrectly predicted as either Class 0 or Class 1.
+
+These values in the confusion matrix help evaluate the performance of a classification model by showing how many instances were correctly or incorrectly predicted for each class.
 
 ***LinearDiscriminantAnalysis***
 ```{python}
