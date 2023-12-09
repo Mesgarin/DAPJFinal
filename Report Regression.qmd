@@ -16,19 +16,15 @@ format:
 
 ***Executive Summary***
 
-This report is provided for the data analytics project with the goal of performing a reasonable analysis of the data given. The general task of your project is to understand what impacts success in the two subjects Mathematics and Portuguese, from student achievement in secondary education of two Portuguese schools. The data is in 948 rows and 40 columns. The target variable is ‘G1. Math’. The algorithm that is used for machine learning model is the regression and for task 2 after categorizing the grade of math we use the classification model.
-After loading the data and understanding each variable, I cleaned the data and removed the garbage variables. Then I transformed ‘famsup’ related variables into yes/ no, type ‘object’ and created new variables as an int and replace yes with 1 and no with zero, and check the categorical variable , we transform to dummy variable and change the type of them to integer for using correlation between variables and G1.math , and before that we check the standard deviation and garbage value and null value for cleaning dada ( preprocessing ) after that we virtualizing the data for better deciding and finding the data . In the next step, I checked the linear correlation of the variables. I performed simple data exploration using visualization for all the features. I define a new data frame “G1Math_df2” with absences. Port, famsup, Walc, failures.Port, studytime, famrel,higher_yes,failure.math and  G1.Math’
-After visualizing the distributions and outliers, I chose my feature variables and split my data set into test data and train data. Then I selected” Random Forest classifier “among 6 algorithms by accuracy in task 1 : 84% and task 2 after categorizing into 3 for target variabel G1.math the accuracy improved and it is 90%.
- and the ROC-AUC was 0.95 for class 2.0 , 0.94 for class 0.0, and 0.89 for class 1.0 but with improving the model using the l2 penalty (which is used in Ridge regression) and removing the variables with small coefficient in the model without the te task1 should be use in the modelI drop  ( schoolsup_yes), and check the model it,s 1 percent changes so I decided dont use this column in our prediction.
- an increase in AUC signifies an improvement in the model's ability to differentiate between classes, while an increase in accuracy indicates an overall enhancement in the model's ability to correctly identify instances. However, paying attention to both metrics can provide a more comprehensive understanding of the model's performance.
-. 
-
- 
+This report is provided for the data analytics project with the goal of performing a reasonable analysis of the given data. The general task of project is to understand what impacts success in the two subjects Mathematics and Portuguese, from student achievement in secondary education of two Portuguese schools. The data is in 948 rows and 40 columns. The target variable is G1. Math'. The algorithm that is used for machine learning model is Random Forest and for task 2 after categorizing the grade of math we use Random Forest, but the accuracy is better than before.
+After loading the data and understanding each variable, I cleaned the data and removed the garbage variables. Then I transformed 'famsup' related variables into yes/no, type 'object' and created new variables as an int and replace yes with 1 and no with zero, and check the categorical variable, we transform to dummy variable and change the type of them to integer for using correlation between variables and G1.math, and before that we check the standard deviation and garbage value and null value for cleaning dada (preprocessing) after that we virtualize the data for better deciding and finding the data. In the next step, I checked the linear correlation of the variables. I performed simple data exploration using visualization for all the features. I defined a new data frame "G1Math_df2" with 'G1. Math', 'absences.Port', 'famsup', 'Walc', 'failures.Port', 'famrel','higher_yes', 'studytime', 'sex_M ', 'failures.Math', 'Mjob_other', 'Fjob_other', 'Fjob_teacher', 'schoolsup_yes'
+After visualizing the distributions and outliers, I chose my feature variables and split my data set into test data and train data. Then I selected "Random Forest " among 4 algorithms by accuracy in task 1: 84%,for improving the algorit I check eagin correlation and remove 'schoolsup_yes' and check again the accuracy it better than befor and it equal to 89%  ROC-AUC  between 0.81 t0 1 for 16 classes , and task 2 after categorizing into 3 for target variable G1. math accuracy improved I check automaticly category and manualy , for better resualt in accuracy and Roc-Auc I prefer manualy cattegorizing and it set it in code by ownself, and it is 94%. the ROC-AUC was 1 for class 0.0, 0.94 for class 1.0, and 0.94 for class 2.0 in AUC signifies an improvement in the model's ability to differentiate between classes but for improving the model.
 
 ## 1.Introduction
 
 Data analytics is the collection, transformation, and organization of data to conclude, make predictions, and drive informed decision-making. The data in the file is about student achievement in secondary education at two Portuguese schools. The data attributes include student grades, demographic, social, and school-related features and it was collected using school reports and questionnaires. Therefore, the algorithm used for the machine learning model is based on supervised and there are regression or classification. Classification algorithms utilize input training data to predict the likelihood or probability that the data that follows will fall into one of the predetermined categories.
 After loading the data and understanding each variable, I cleaned the data and performed data exploration using visualization. In the next step, I process models to find the best model for this type of output. We have discrete variables that are similar to continuous variables due to the small distance between them. In the end, according to these data, we checked whether by classifying the information, our prediction of students' grades would improve or not and whether the accuracy measurement would be checked. 
+
 
 
 ## 2. Data Set
@@ -560,7 +556,7 @@ outliers_famrel  = G1Math_df.loc[outliers_famrel, 'G1.Math']
 ```
 ```{python}
 # check the columns we can see outliers
-toll= G1Math_df.loc[df['G1.Math']>23]
+toll= G1Math_df.loc[df['G1.Math']>20.5]
 toll.shape
 ```
 
@@ -801,7 +797,7 @@ subset_df = df2[highly_correlated_variables]
 subset_df.columns
 ```
 
-so fo this correlation we only use failers.math and heigher_yes, sex_M , and he other coloumns we need for them . 
+so fo this correlation we only use failers.math and heigher_yes, sex_M ,Fjob_teacher ,schoolsup_no  and the other coloumns we need for them . 
 ```{python}
 
 # Specify the columns you want to keep
@@ -821,14 +817,14 @@ print(G1Math_df2)
 ### 4.2 Correlation between different features:
 Correlation is the way of understanding the strength of the relationship between 2 variables or features in a dataset. Correlation coefficients determine this strength by indicating a value between [-1,1] where -1 indicates a very strong negative relationship, 0 indicates no relationship and 1 indicates strong positive relationship. Pearson correlation is one of the most widely used correlation method and it indicates the linear relationship between 2 variables. The heatmap of correlation between all variables of the dataset is given bellow: 
 
-after checking the corrolation I selected failures.Math,  higher_yes ,failures.Math, for finding the model becouase this variable has corrolation with G1.math more than another columns.
+after checking the corrolation I selected, 'G1.Math','absences.Port', 'famsup', 'Walc','failures.Port','famrel', 'higher_yes','studytime','sex_M','failures.Math','Mjob_other', 'Fjob_other', 'Fjob_teacher','schoolsup_yes' for finding the model becouase this variable has corrolation with G1.math more than another columns.
 
 ```{python}
-#| label: Get correlation visually
+#| label2: Get correlation visually
 plt.figure(figsize = (19,10))
 sns.heatmap(G1Math_df2[['G1.Math','absences.Port', 'famsup', 'Walc','failures.Port','famrel', 'higher_yes','studytime','sex_M','failures.Math',
        'Mjob_other', 'Fjob_other', 'Fjob_teacher','higher_no','sex_F', 'schoolsup_no',
-       'schoolsup_yes', 'higher_no', ]].corr(),annot=True, annot_kws={"size": 10}, linewidth=1, linecolor="black")
+       'schoolsup_yes',  ]].corr(),annot=True, annot_kws={"size": 10}, linewidth=1, linecolor="black")
 ```
 
 
@@ -918,7 +914,6 @@ G1Math_df2['G1.Math'].value_counts()
 
 A summary of each algorithm is described below.
 
-Logistic Regression is a classification method used when the Response column is categorical with only two possible values. The probability of the possible outcomes is modeled with a logistic transformation as a weighted sum of the Predictor columns. The weights or regression coefficients are selected to maximize the likelihood of the observed data.
 
 Linear Discriminant Analysis or Normal Discriminant Analysis or Discriminant Function Analysis is a dimensionality reduction technique that is commonly used for supervised classification problems. It is used for modelling differences in groups i.e. separating two or more classes. It is used to project the features in higher dimension space into a lower dimension space. Linear discriminant analysis is popular when we have more than two response classes, because it also provides low-dimensional views of the data
 
@@ -987,33 +982,8 @@ for name, model in models:
 
 ```
 
-as you can see the RFM has the best accuracy and after that DTC can be selected for this model between the other classifier models.
-
-### 5.3 Improving the model Task 1 
-
 ```{python}
-G1Math_df2.head()
-G1Math_df2.info()
-G1Math_df2.columns
-```
-
-```{python}
-df2=G1Math_df2[['G1.Math', 'absences.Port', 'famsup', 'Walc', 'failures.Port', 'famrel',
-       'higher_yes', 'studytime', 'sex_M', 'failures.Math', 'Mjob_other',
-       'Fjob_other', 'Fjob_teacher', 'schoolsup_yes']]
-
-corr_matrix = df2.corr()
-corr_matrix['G1.Math'].sort_values(ascending = False)
-```
-
-To check this more precisely, I removed schoolsup_yes from my feature variables and performed a Random Forest Classifier model. I split my data set into train (80% of the observation) and test (20% of the observation), fitted the model on train data and performed a prediction on my test data. The classification report is as follows; the accuracy reduced to 81%.
-
-```{python}
-# RandomForestClassifier without removing schoolsup_yes,  prediction and classification report and score
-x = G1Math_df2.drop(['G1.Math'], axis=1)
-y = G1Math_df2['G1.Math']
-
-xtrain, xtest, ytrain, ytest = train_test_split(x, y, test_size=0.2, random_state=42)
+# RandomForestClassifier,  prediction and classification report and score
 
 model = RandomForestClassifier(n_estimators=20, n_jobs=-1)
 model.fit(xtrain,ytrain)
@@ -1030,8 +1000,6 @@ score = model.score(xtest, ytest)
 print(score)
 ```
 
- with out removing the schoolsup_yes we have 86% accuracy 
-and the roc-auc for each classess between 89 to 1 . 
 ```{python}
 import matplotlib.pyplot as plt
 from sklearn.metrics import roc_curve
@@ -1063,11 +1031,33 @@ plt.legend()
 plt.grid()
 plt.show()
 ```
+as you can see the RFM has the best accuracy and after that DTC can be selected for this model between the other classifier models.
+
+### 5.3 Improving the model Task 1 
+
+```{python}
+G1Math_df2.head()
+G1Math_df2.info()
+G1Math_df2.columns
+```
+
+```{python}
+df2=G1Math_df2[['G1.Math', 'absences.Port', 'famsup', 'Walc', 'failures.Port', 'famrel',
+       'higher_yes', 'studytime', 'sex_M', 'failures.Math', 'Mjob_other',
+       'Fjob_other', 'Fjob_teacher', 'schoolsup_yes']]
+
+corr_matrix = df2.corr()
+corr_matrix['G1.Math'].sort_values(ascending = False)
+```
+
+To check this more precisely, I removed schoolsup_yes from my feature variables and performed a Random Forest Classifier model. I split my data set into train (80% of the observation) and test (20% of the observation), fitted the model on train data and performed a prediction on my test data. The classification report is as follows; the accuracy reduced to 82%.
+
+ with out removing the schoolsup_yes we have 86% accuracy 
+and the roc-auc for each classess between 89 to 1 . 
+
 
 I drop the schoolsup_yes for checking the model  
 ```{python}
-
-
 # Selecting features and target variable
 x = G1Math_df2.drop(['G1.Math','schoolsup_yes' ], axis=1)
 y = G1Math_df2['G1.Math']
@@ -1104,15 +1094,6 @@ for name, model in models:
 ```
 
 
-**Dropping columns and fitting the model**
-
-```{python}
-x = G1Math_df2.drop(['schoolsup_yes','G1.Math'], axis=1)
-y = G1Math_df['G1.Math']
-xtrain, xtest, ytrain, ytest = train_test_split(x, y, test_size=0.2, random_state=42)
-model = model = RandomForestClassifier()
-model.fit(xtrain , ytrain)
-```
 
 ```{python}
 # 10 fold cross validation on training data
@@ -1127,7 +1108,7 @@ print("Number of CV Scores used in Average: ", len(scores))
 ```
 
 To check this more precisely, I removed schoolsup_yes from my feature variables and performed a Random Forest Classifier model. I split my data set into train (80% of the observation) and test (20% of the observation), fitted the model on train data and performed a prediction on my test data. The classification report is as follows; 
-model's average cross-validation score is approximately 0.88, and this is the average performance across the 10 folds. It provides an estimate of how well  model is expected to generalize to new, unseen data.
+model's average cross-validation score is approximately 0.84, and this is the average performance across the 10 folds. It provides an estimate of how well  model is expected to generalize to new, unseen data.
 
 ### 5.4 Model Selection Task 2 
 Task 2: Bin the target variable G1. Math is divided into 3 categories in such a way that the resulting bins contain roughly an equal number of cases. Use this newly created categorical variable as response for a classification model. Again, do not use any other grade feature and build a model that contains the variables absences. Port, famsup, Walc, failures. Port, study time, famrel but not the variables Fedu, Medu, age.
@@ -1148,8 +1129,43 @@ target = 'G1.Math'
 
 
 # Bin the target variable into 3 categories
-k_bins = KBinsDiscretizer(n_bins=3, encode='ordinal', strategy='quantile')
-G1Math_df2['G1.Math_binned'] = k_bins.fit_transform(G1Math_df2[[target]])
+#k_bins = KBinsDiscretizer(n_bins=3, encode='ordinal', strategy='quantile')
+#G1Math_df2['G1.Math_binned'] = k_bins.fit_transform(G1Math_df2[[target]])
+#
+
+# Create a new categorical variable based on the conditions for G2.Math
+bins = [0, 6, 13, 20]
+labels = [0, 1, 2]
+G1Math_df2['G1.Math_binned'] = pd.cut(G1Math_df2['G1.Math'], bins=bins, labels=labels, right=False)
+
+features = [ 'absences.Port', 'famsup', 'Walc', 'failures.Port', 'famrel',
+       'higher_yes', 'studytime', 'sex_M', 'failures.Math', 'Mjob_other',
+       'Fjob_other', 'Fjob_teacher', 'schoolsup_yes' ]
+target = 'G1.Math_binned'
+```
+
+```{python}
+plt.figure(figsize=(5,5))
+valuetable = pd.crosstab(G1Math_df2['failures.Math'],G1Math_df2['G1.Math_binned']) # ,normalize='index'
+valuetable.plot.bar(stacked=True)
+plt.title('failures.Math / G1.Math_binned')
+plt.xlabel('failures.Math')
+plt.ylabel('G1.Math_binned')
+```
+
+```{python}
+corr_matrix = G1Math_df2.corr()
+corr_matrix['G1.Math_binned'].sort_values(ascending = False)
+```
+
+```{python}
+sns.heatmap(G1Math_df2[['G1.Math_binned','absences.Port', 'famsup', 'Walc','failures.Port','famrel', 'higher_yes','studytime','sex_M','failures.Math',
+       'Mjob_other', 'Fjob_other', 'Fjob_teacher', 
+       'schoolsup_yes',  ]].corr(), annot=True, annot_kws={"size": 6}, linewidth=1, linecolor="black" )
+plt.show()
+```
+
+```{python}
 
 # Select features and the binned target variable for the model
 X = G1Math_df2[features]
@@ -1163,31 +1179,6 @@ scaler = StandardScaler()
 xtrain_scaled = scaler.fit_transform(xtrain)
 xtest_scaled = scaler.transform(xtest)
 ```
-In this matrix:
-
-True Positives (TP):
-
-TP for Class 0 (first row, first column): 52 instances were correctly predicted as Class 0.
-TP for Class 1 (second row, second column): 41 instances were correctly predicted as Class 1.
-TP for Class 2 (third row, third column): 78 instances were correctly predicted as Class 2.
-False Positives (FP):
-
-FP for Class 0 (first row, second and third columns): 4 instances of Class 0 were incorrectly predicted as Class 1, and 1 instance was incorrectly predicted as Class 2.
-FP for Class 1 (second row, first and third columns): 5 instances of Class 1 were incorrectly predicted as Class 0, and 6 instances were incorrectly predicted as Class 2.
-FP for Class 2 (third row, first and second columns): 2 instances of Class 2 were incorrectly predicted as Class 0, and 1 instance was incorrectly predicted as Class 1.
-True Negatives (TN):
-The remaining entries outside the diagonal are not explicitly mentioned in a confusion matrix, but they represent instances that were correctly predicted as classes other than the one specified by the row.
-
-False Negatives (FN):
-
-FN for Class 0 (first row, remaining columns): 1 instance of Class 0 was incorrectly predicted as either Class 1 or Class 2.
-FN for Class 1 (second row, remaining columns): 6 instances of Class 1 were incorrectly predicted as either Class 0 or Class 2.
-FN for Class 2 (third row, remaining columns): 6 instances of Class 2 were incorrectly predicted as either Class 0 or Class 1.
-
-These values in the confusion matrix help evaluate the performance of a classification model by showing how many instances were correctly or incorrectly predicted for each class.
-I check the models again by k-fold to find better differential result:  the accuracy of  RFM: 90% and in this category we have better accuracy when we have about 18 category.
-
-
 
 ```{python}
 
@@ -1246,6 +1237,29 @@ score = model.score(xtest, ytest)
 print(score)
 ```
 
+In this matrix:
+
+True Positives (TP):
+
+TP for Class 0 (first row, first column): 3 instances were correctly predicted as Class 0.
+TP for Class 1 (second row, second column): 121 instances were correctly predicted as Class 1.
+TP for Class 2 (third row, third column): 80 instances were correctly predicted as Class 2.
+False Positives (FP):
+
+FP for Class 0 (first row, second and third columns): 0 instances of Class 0 were incorrectly predicted as Class 1, and 0 instance was incorrectly predicted as Class 2.
+FP for Class 1 (second row, first and third columns): 0 instances of Class 1 were incorrectly predicted as Class 0, and 7 instances were incorrectly predicted as Class 2.
+FP for Class 2 (third row, first and second columns): 0 instances of Class 2 were incorrectly predicted as Class 0, and 4 instance was incorrectly predicted as Class 1.
+True Negatives (TN):
+The remaining entries outside the diagonal are not explicitly mentioned in a confusion matrix, but they represent instances that were correctly predicted as classes other than the one specified by the row.
+
+False Negatives (FN):
+
+FN for Class 0 (first row, remaining columns): 1 instance of Class 0 was incorrectly predicted as either Class 1 or Class 2.
+FN for Class 1 (second row, remaining columns): 6 instances of Class 1 were incorrectly predicted as either Class 0 or Class 2.
+FN for Class 2 (third row, remaining columns): 6 instances of Class 2 were incorrectly predicted as either Class 0 or Class 1.
+
+
+
 
 ```{python}
 import matplotlib.pyplot as plt
@@ -1290,8 +1304,8 @@ print("Average CV Score: ", scores.mean())
 print("Number of CV Scores used in Average: ", len(scores))
 ```
 
- Number of CV Scores used in Average:  10
- the average accuracy across the 10 folds is approximately 0.8932, or 89.32%.
+ Number of CV Scores used in Average:  0.93 or 93%
+ 
  the average cross-validation score provides an estimate of the model's performance that is less sensitive to the choice of a particular training/test split, giving you a more robust evaluation metric.
 at the end If accuracy increases while the area under the ROC curve (AUC) decreases, it means that there is an improvement in correctly identifying positive samples (True Positives) and a reduction in misclassifying samples from other classes (False Positives). With increased accuracy, the model demonstrates better capability in correctly identifying positive class instances.
 However, if AUC decreases, it indicates a change in the balance between the True Positive rate and False Positive rate. The model may perform better in detecting positive samples, but it might struggle in reducing False Negatives, which could be crucial in specific applications, depending on the nature of the problem.
@@ -1300,8 +1314,7 @@ In general, an increase in AUC signifies an improvement in the model's ability t
 
 ## 6-Results and Conclusions:
 
-in this data set we have a little correlation between features but by cleaning and preprocessing we tr the best feature in this data set after with visualization founding the outliers for dropping the data set , for using the model we have a integer and the data in G1.math is Discontinuous so we use the classification but the category of the data is range of 1 to zero so by correlation low between the target and the other feature is it hart to access the high accuracy and we have the 86 % and for better accuracy we drop some columns and check it again , in task 2 we have the 3 category of the grade the grade in each category have little variance and big variance between the other categories, so it help us to have a good accuracy and good roc-auc . 
-at the end I think is good idea categorizing the data for better accuracy and found the best feature for best prediction.
+in this data set we have a little correlation between features but by cleaning and preprocessing we tr the best feature in this data set after with visualization founding the outliers for dropping the data set , for using the model we have a integer and the data in G1.math is Discontinuous so we use the classification but the category of the data is range of 1 to zero so by correlation low between the target and the other feature is it hart to access the high accuracy and we have the 84 % and for better accuracy we drop some columns and check it again , in task 2 we have the 3 category of the grade. categorizing the data for better accuracy 93 and found the best feature for best prediction.
 ## 7.References
 
 1-	https://towardsdatascience.com/beginner-guide-to-build-compare-and-evaluate-machine-learning-models-in-under-10-minutes-19a6781830de
